@@ -1,0 +1,17 @@
+{
+  "name": "nightrun",
+  "version": "1.0.0",
+  "description": "江湾夜跑：城市夜跑路线筛选、照明观察与空间数据服务（移动优先，不承诺安全）",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "seed": "node server/seed.js",
+    "test": "node --test test/",
+    "benchmark": "node scripts/benchmark-spatial.js",
+    "sync-shared": "node scripts/sync-shared.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^4.21.0"
+  }
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>江湾夜跑 · 路线与照明记录</title>
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="row">
+    <h1>🌃 江湾夜跑</h1>
+    <span id="netPill" class="net-pill" aria-live="polite">在线</span>
+  </div>
+  <div class="sub">距离 / 坡度 / 交叉点取自原几何；照明是带时间的观察，不是安全承诺</div>
+  <nav class="nav-tabs" aria-label="主导航">
+    <button data-tab="home" aria-current="page">路线筛选</button>
+    <button data-tab="collections">我的集合</button>
+    <button data-tab="about">说明</button>
+  </nav>
+</header>
+
+<main id="view" tabindex="-1"></main>
+
+<div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+
+<script src="/js/geo.js"></script>
+<script src="/js/store.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/map.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
