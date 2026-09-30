@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>潼川夜跑 · 路线助手（原型）</title>
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">🌙</span>
+    <div>
+      <h1>潼川夜跑</h1>
+      <p class="tagline">路线筛选 · 照明观察 · 补给时段</p>
+    </div>
+  </div>
+  <div class="net" id="netDot" role="status" aria-live="polite" title="网络状态">
+    <span class="dot online"></span><span id="netText">在线</span>
+  </div>
+</header>
+
+<div class="disclaimer" role="note">
+  本站只汇总<b>可核查的观察与几何数据</b>，<b>不承诺任何路线安全</b>。照明信息来自跑者夜间记录，会过期、会冲突；出行前请自行判断。
+</div>
+
+<div id="staleBanner" class="stale-banner" hidden></div>
+
+<main id="main">
+  <!-- ========== 首页：路线筛选 ========== -->
+  <section id="tab-routes" class="tab" aria-label="路线筛选">
+    <div class="filter-card">
+      <div class="filter-head">
+        <h2>今晚想怎么跑？</h2>
+        <button id="btnReset" class="btn ghost small" type="button">重置</button>
+      </div>
+      <div class="filter-row">
+        <label for="fMaxKm">最远距离 <output id="fMaxKmVal">8</output> km</label>
+        <input type="range" id="fMaxKm" min="1" max="10" step="0.5" value="8">
+      </div>
+      <div class="filter-row">
+        <label for="fMaxGrade">最大坡度 <output id="fMaxGradeVal">8</output>%</label>
+        <input type="range" id="fMaxGrade" min="0" max="20" step="0.5" value="8">
+      </div>
+      <div class="switch-row">
+        <label class="switch"><input type="checkbox" id="fLit"><span>只要近期夜间观察“亮灯”达 80%</span></label>
+        <label class="switch"><input type="checkbox" id="fSupply"><span>此刻有营业的补给退出点</span></label>
+      </div>
+      <p class="filter-note" id="filterNote">“亮灯”只统计夜间实地记录；白天照片与超 14 天记录不计入。</p>
+      <button id="btnApply" class="btn primary block" type="button">应用筛选</button>
+    </div>
+    <ul id="routeList" class="route-list" aria-live="polite"></ul>
+  </section>
+
+  <!-- ========== 地图 / 定位 ========== -->
+  <section id="tab-map" class="tab" hidden aria-label="地图与定位">
+    <div class="map-toolbar">
+      <button id="btnLocate" class="btn primary" type="button">定位我</button>
+      <button id="btnSpatial" class="btn" type="button">比较分段索引 / 实时求交</button>
+    </div>
+    <div id="locStatus" class="loc-status" role="status" aria-live="polite">未定位。可点“定位我”，或用下方手动入口。</div>
+    <details class="manual-entry" id="manualEntry">
+      <summary>无法定位？手动输入坐标 / 选择地标</summary>
+      <div class="manual-grid">
+        <label>x <input type="number" id="mx" value="300" step="10"></label>
+        <label>y <input type="number" id="my" value="0" step="10"></label>
+        <label>精度(米) <input type="number" id="macc" value="20" step="5"></label>
+        <button class="btn" id="btnManualSnap" type="button">手动吸附路线</button>
+      </div>
+      <p class="filter-note">河面中的位置只会被允许吸到桥上，不会“跨河投影”到岸边步道。</p>
+    </details>
+    <div id="mapWrap" class="map-wrap">
+      <svg id="map" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" role="img" aria-label="潼川夜跑示意地图"></svg>
+    </div>
+    <div id="spatialResult" class="spatial-result" hidden></div>
+  </section>
+
+  <!-- ========== 我的集合 ========== -->
+  <section id="tab-kit" class="tab" hidden aria-label="我的集合">
+    <div class="kit-head">
+      <h2>集合点与收藏</h2>
+      <div class="kit-sync">
+        <span id="kitRev" class="rev-tag">未同步</span>
+        <button id="btnSync" class="btn primary small" type="button">同步</button>
+      </div>
+    </div>
+    <p class="filter-note">离线编辑先存本机，网络恢复后按<b>字段</b>合并：两台设备改不同点互不覆盖；公共注意信息不在这里，也不会被同步覆盖。</p>
+    <ul id="outboxList" class="outbox" aria-label="待同步操作"></ul>
+    <div id="conflictBox" class="conflict-box" hidden></div>
+    <h3>集合点</h3>
+    <ul id="pointList" class="point-list"></ul>
+    <form id="pointForm" class="point-form">
+      <input type="text" id="pfLabel" placeholder="集合点名称，如：西关桥脚 21:00" required maxlength="40">
+      <div class="manual-grid">
+        <label>x <input type="number" id="pfX" value="300" step="10"></label>
+        <label>y <input type="number" id="pfY" value="40" step="10"></label>
+      </div>
+      <button class="btn block" type="submit">离线添加集合点</button>
+    </form>
+    <h3>收藏的路线</h3>
+    <ul id="favList" class="fav-list"></ul>
+  </section>
+
+  <!-- ========== 观察与说明 ========== -->
+  <section id="tab-info" class="tab" hidden aria-label="上报观察与说明">
+    <h2>上报照明 / 路面观察</h2>
+    <form id="obsForm" class="obs-form">
+      <label>路线
+        <select id="obRoute"></select>
+      </label>
+      <fieldset>
+        <legend>这是什么时候看到的？（决定能否作为夜间照明依据）</legend>
+        <label class="radio"><input type="radio" name="obVisit" value="night" checked> 夜间实地看到（可作为照明证据）</label>
+        <label class="radio"><input type="radio" name="obVisit" value="day"> 白天路过 / 只有白天照片（<b>不能</b>证明夜间亮灯）</label>
+      </fieldset>
+      <label>状态
+        <select id="obStatus">
+          <option value="lit">照明良好</option>
+          <option value="dark">照明不足/不亮</option>
+          <option value="surface">路面情况（非照明）</option>
+        </select>
+      </label>
+      <div class="manual-grid">
+        <label>覆盖起点(m) <input type="number" id="obS" value="0" step="50"></label>
+        <label>覆盖终点(m) <input type="number" id="obE" value="500" step="50"></label>
+        <label>亮灯覆盖比例 0-1 <input type="number" id="obCov" value="0.9" min="0" max="1" step="0.05"></label>
+      </div>
+      <label>观察时间 <input type="datetime-local" id="obWhen" step="60"></label>
+      <label>备注 <input type="text" id="obComment" maxlength="120" placeholder="例如：两盏灯不亮已报修"></label>
+      <button class="btn primary block" type="submit">提交观察（需在线）</button>
+      <p id="obsMsg" class="filter-note" role="status"></p>
+    </form>
+
+    <h2>数据怎么算的</h2>
+    <details>
+      <summary>为什么白天照片不算“照明良好”？</summary>
+      <p>灯柱白天可见不等于夜里亮。系统只把 <code>夜间实地 + 夜间照片</code> 的记录计入亮灯比例；白天记录单列展示。照明结论按 50m 分段取最近 14 天内的夜间观察，超期记为“证据过期”。</p>
+    </details>
+    <details>
+      <summary>简化线与原几何的区别？</summary>
+      <p>地图缩放用的是抽稀后的<b>简化线（仅渲染）</b>；距离、坡度、路线交叉点、退出点距离全部在加密后的<b>原几何</b>上计算，缩放级别不会改变任何路线判断。</p>
+    </details>
+    <details>
+      <summary>键盘怎么操作？</summary>
+      <ul class="kbd-list">
+        <li><kbd>1</kbd>–<kbd>4</kbd> 切换四个标签页</li>
+        <li><kbd>F</kbd> 聚焦“最远距离”筛选，<kbd>Enter</kbd> 应用筛选</li>
+        <li><kbd>L</kbd> 触发定位，<kbd>M</kbd> 展开手动入口</li>
+        <li><kbd>S</kbd> 在集合页触发同步</li>
+        <li><kbd>Tab</kbd>/<kbd>Shift+Tab</kbd> 顺序浏览，所有操作有可见焦点</li>
+      </ul>
+    </details>
+    <details open>
+      <summary>安全声明</summary>
+      <p>本产品<b>不对任何路线做安全承诺</b>。照明、路面、注意信息均为志愿者观察的转录，可能过期或相互矛盾；冲突会显式标出而不是被平均掉。</p>
+    </details>
+  </section>
+</main>
+
+<!-- 路线详情抽屉 -->
+<div id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-inner">
+    <button class="sheet-close btn ghost" id="sheetClose" aria-label="关闭详情">×</button>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+
+<nav class="tabbar" aria-label="主导航">
+  <button data-tab="routes" class="tabbtn active" aria-current="page"><span>路线</span></button>
+  <button data-tab="map" class="tabbtn"><span>地图</span></button>
+  <button data-tab="kit" class="tabbtn"><span>集合</span></button>
+  <button data-tab="info" class="tabbtn"><span>观察/说明</span></button>
+</nav>
+
+<script src="/js/api.js"></script>
+<script src="/js/map.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

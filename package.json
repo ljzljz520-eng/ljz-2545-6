@@ -1,0 +1,11 @@
+{
+  "name": "nightrun-city",
+  "version": "0.1.0",
+  "private": true,
+  "description": "城市夜跑路线站：距离/坡度/照明观察/补给时段的空间数据原型",
+  "scripts": {
+    "start": "node server/app.js",
+    "test": "node test/acceptance.js",
+    "bench": "node test/bench-spatial.js"
+  }
+}

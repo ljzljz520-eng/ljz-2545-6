@@ -1,0 +1,557 @@
+{
+  "city": "潼川（虚构城市，局部米坐标系，仅用于原型）",
+  "crs": {
+    "type": "local-meters",
+    "note": "所有坐标单位为米；河流为 y∈[-16,16] 的带状障碍，桥梁是仅有的合法跨越。真实系统应在此处放投影定义（EPSG 等），跨桥投影算法不变。"
+  },
+  "river": {
+    "name": "潼川河道",
+    "ring": [
+      {
+        "x": -100,
+        "y": -16
+      },
+      {
+        "x": 2500,
+        "y": -16
+      },
+      {
+        "x": 2500,
+        "y": 16
+      },
+      {
+        "x": -100,
+        "y": 16
+      }
+    ]
+  },
+  "bridges": [
+    {
+      "id": "B1",
+      "name": "西关桥",
+      "rect": {
+        "minX": 295,
+        "maxX": 305,
+        "minY": -45,
+        "maxY": 45
+      },
+      "deck": {
+        "x": 300,
+        "widthM": 30
+      }
+    },
+    {
+      "id": "B2",
+      "name": "东关桥",
+      "rect": {
+        "minX": 2195,
+        "maxX": 2205,
+        "minY": -45,
+        "maxY": 45
+      },
+      "deck": {
+        "x": 2200,
+        "widthM": 32
+      }
+    }
+  ],
+  "supplies": [
+    {
+      "id": "S1",
+      "name": "西关24小时便利店",
+      "x": 400,
+      "y": 62,
+      "hours": "24h",
+      "water": true
+    },
+    {
+      "id": "S2",
+      "name": "桥东自动售货机",
+      "x": 2050,
+      "y": 62,
+      "hours": "06:00-22:00",
+      "water": false,
+      "note": "22:00 后楼宇锁门，无法使用"
+    },
+    {
+      "id": "S3",
+      "name": "滨河南售货亭",
+      "x": 1200,
+      "y": -62,
+      "hours": "Mo-Fr 06:00-21:00; Sa-Su 06:00-23:00",
+      "water": true
+    },
+    {
+      "id": "S4",
+      "name": "老铁路补给点",
+      "x": 1100,
+      "y": 135,
+      "hours": "24h",
+      "water": true
+    },
+    {
+      "id": "S5",
+      "name": "城北小卖部",
+      "x": 1500,
+      "y": 320,
+      "hours": "07:00-20:00",
+      "water": false
+    }
+  ],
+  "routes": [
+    {
+      "id": "R1",
+      "name": "滨河环线",
+      "status": "active",
+      "surface": "沥青/透水砖",
+      "vertices": [
+        {
+          "x": 300,
+          "y": 40,
+          "z": 6
+        },
+        {
+          "x": 2200,
+          "y": 40,
+          "z": 6
+        },
+        {
+          "x": 2200,
+          "y": 16,
+          "z": 9
+        },
+        {
+          "x": 2200,
+          "y": -16,
+          "z": 9
+        },
+        {
+          "x": 2200,
+          "y": -40,
+          "z": 6
+        },
+        {
+          "x": 300,
+          "y": -40,
+          "z": 6
+        },
+        {
+          "x": 300,
+          "y": -16,
+          "z": 9
+        },
+        {
+          "x": 300,
+          "y": 16,
+          "z": 9
+        },
+        {
+          "x": 300,
+          "y": 40,
+          "z": 6
+        }
+      ],
+      "closed": true,
+      "bridgeMarks": [
+        {
+          "minX": 295,
+          "maxX": 305,
+          "minY": -45,
+          "maxY": 45
+        },
+        {
+          "minX": 2195,
+          "maxX": 2205,
+          "minY": -45,
+          "maxY": 45
+        }
+      ],
+      "supplyIds": [
+        "S1",
+        "S2",
+        "S3"
+      ]
+    },
+    {
+      "id": "R2",
+      "name": "老铁路绿道",
+      "status": "active",
+      "surface": "碎石/旧枕木",
+      "vertices": [
+        {
+          "x": 0,
+          "y": 120,
+          "z": 8
+        },
+        {
+          "x": 550,
+          "y": 128,
+          "z": 9
+        },
+        {
+          "x": 1100,
+          "y": 140,
+          "z": 9
+        },
+        {
+          "x": 1700,
+          "y": 146,
+          "z": 9
+        },
+        {
+          "x": 2200,
+          "y": 150,
+          "z": 8
+        }
+      ],
+      "closed": false,
+      "bridgeMarks": [],
+      "supplyIds": [
+        "S4"
+      ]
+    },
+    {
+      "id": "R3",
+      "name": "双桥训练线",
+      "status": "active",
+      "surface": "沥青",
+      "vertices": [
+        {
+          "x": 300,
+          "y": 40,
+          "z": 6
+        },
+        {
+          "x": 300,
+          "y": 600,
+          "z": 10
+        },
+        {
+          "x": 2200,
+          "y": 600,
+          "z": 10
+        },
+        {
+          "x": 2200,
+          "y": 40,
+          "z": 6
+        },
+        {
+          "x": 2200,
+          "y": 16,
+          "z": 9
+        },
+        {
+          "x": 2200,
+          "y": -16,
+          "z": 9
+        },
+        {
+          "x": 2200,
+          "y": -600,
+          "z": 10
+        },
+        {
+          "x": 300,
+          "y": -600,
+          "z": 10
+        },
+        {
+          "x": 300,
+          "y": -40,
+          "z": 6
+        },
+        {
+          "x": 300,
+          "y": -16,
+          "z": 9
+        },
+        {
+          "x": 300,
+          "y": 16,
+          "z": 9
+        },
+        {
+          "x": 300,
+          "y": 40,
+          "z": 6
+        }
+      ],
+      "closed": true,
+      "bridgeMarks": [
+        {
+          "minX": 295,
+          "maxX": 305,
+          "minY": -45,
+          "maxY": 45
+        },
+        {
+          "minX": 2195,
+          "maxX": 2205,
+          "minY": -45,
+          "maxY": 45
+        }
+      ],
+      "supplyIds": [
+        "S1",
+        "S2",
+        "S3"
+      ]
+    },
+    {
+      "id": "R4",
+      "name": "城北坡线",
+      "status": "active",
+      "surface": "石板/台阶",
+      "vertices": [
+        {
+          "x": 0,
+          "y": 300,
+          "z": 6
+        },
+        {
+          "x": 600,
+          "y": 300,
+          "z": 8
+        },
+        {
+          "x": 700,
+          "y": 700,
+          "z": 26
+        },
+        {
+          "x": 1100,
+          "y": 850,
+          "z": 42
+        },
+        {
+          "x": 1500,
+          "y": 650,
+          "z": 24
+        },
+        {
+          "x": 1600,
+          "y": 300,
+          "z": 10
+        },
+        {
+          "x": 0,
+          "y": 300,
+          "z": 6
+        }
+      ],
+      "closed": true,
+      "bridgeMarks": [],
+      "supplyIds": [
+        "S5"
+      ]
+    },
+    {
+      "id": "R5",
+      "name": "旧西岸线",
+      "status": "archived",
+      "archivedAt": "2025-11-02",
+      "supersededBy": "R1",
+      "surface": "旧水泥",
+      "vertices": [
+        {
+          "x": 350,
+          "y": 28,
+          "z": 5
+        },
+        {
+          "x": 700,
+          "y": 22,
+          "z": 5
+        },
+        {
+          "x": 1100,
+          "y": 30,
+          "z": 5
+        },
+        {
+          "x": 1500,
+          "y": 20,
+          "z": 5
+        },
+        {
+          "x": 1900,
+          "y": 26,
+          "z": 5
+        },
+        {
+          "x": 2150,
+          "y": 22,
+          "z": 5
+        }
+      ],
+      "closed": false,
+      "bridgeMarks": [],
+      "supplyIds": []
+    }
+  ],
+  "notices": [
+    {
+      "id": "N1",
+      "routeId": "R1",
+      "kind": "hazard",
+      "text": "东关桥北侧伸缩缝有高差，雨后湿滑，夜间注意脚下。",
+      "at": {
+        "x": 2200,
+        "y": 24
+      },
+      "updatedAt": "2026-09-22T10:00:00+08:00",
+      "updatedBy": "市政热线转录"
+    },
+    {
+      "id": "N2",
+      "routeId": "R4",
+      "kind": "access",
+      "text": "城北段台阶共 42 级，婴儿车/轮椅不可通过。",
+      "at": {
+        "x": 700,
+        "y": 700
+      },
+      "updatedAt": "2026-09-15T10:00:00+08:00",
+      "updatedBy": "跑团维护者"
+    }
+  ],
+  "observations": [
+    {
+      "id": "O1",
+      "routeId": "R1",
+      "kind": "lighting",
+      "status": "lit",
+      "coverage": 0.95,
+      "cumStart": 0,
+      "cumEnd": 800,
+      "nightVisit": true,
+      "visitedAt": "2026-09-28T21:40:00+08:00",
+      "photo": "night",
+      "observer": "u14",
+      "comment": "整段路灯亮，西关桥下两盏新装"
+    },
+    {
+      "id": "O2",
+      "routeId": "R1",
+      "kind": "lighting",
+      "status": "lit",
+      "coverage": 0.9,
+      "cumStart": 800,
+      "cumEnd": 1600,
+      "nightVisit": true,
+      "visitedAt": "2026-09-20T22:05:00+08:00",
+      "photo": "night",
+      "observer": "u14"
+    },
+    {
+      "id": "O3",
+      "routeId": "R1",
+      "kind": "lighting",
+      "status": "lit",
+      "coverage": 0.85,
+      "cumStart": 1600,
+      "cumEnd": 2400,
+      "nightVisit": true,
+      "visitedAt": "2026-09-24T21:20:00+08:00",
+      "photo": "night",
+      "observer": "u07",
+      "comment": "含东关桥桥面"
+    },
+    {
+      "id": "O4",
+      "routeId": "R1",
+      "kind": "lighting",
+      "status": "dark",
+      "coverage": 0.2,
+      "cumStart": 2300,
+      "cumEnd": 3000,
+      "nightVisit": true,
+      "visitedAt": "2026-09-29T22:30:00+08:00",
+      "photo": "night",
+      "observer": "u31",
+      "comment": "南岸两盏灯不亮，已报修；与较早“亮”的记录冲突，待复核"
+    },
+    {
+      "id": "O5",
+      "routeId": "R1",
+      "kind": "lighting",
+      "status": "lit",
+      "coverage": 0.9,
+      "cumStart": 3000,
+      "cumEnd": 3960,
+      "nightVisit": false,
+      "visitedAt": "2026-09-29T08:10:00+08:00",
+      "photo": "day",
+      "observer": "u31",
+      "comment": "白天路过看到灯柱齐全，未验证夜间是否亮——不作为夜间照明依据"
+    },
+    {
+      "id": "O6",
+      "routeId": "R2",
+      "kind": "lighting",
+      "status": "lit",
+      "coverage": 0.92,
+      "cumStart": 0,
+      "cumEnd": 2210,
+      "nightVisit": true,
+      "visitedAt": "2026-09-27T20:50:00+08:00",
+      "photo": "night",
+      "observer": "u14"
+    },
+    {
+      "id": "O7",
+      "routeId": "R2",
+      "kind": "lighting",
+      "status": "lit",
+      "coverage": 1,
+      "cumStart": 0,
+      "cumEnd": 2210,
+      "nightVisit": false,
+      "visitedAt": "2026-08-01T09:00:00+08:00",
+      "photo": "day",
+      "observer": "u02",
+      "comment": "白天照片，仅留档"
+    },
+    {
+      "id": "O8",
+      "routeId": "R3",
+      "kind": "lighting",
+      "status": "dark",
+      "coverage": 0.3,
+      "cumStart": 560,
+      "cumEnd": 2460,
+      "nightVisit": true,
+      "visitedAt": "2026-09-26T21:00:00+08:00",
+      "photo": "night",
+      "observer": "u07"
+    },
+    {
+      "id": "O9",
+      "routeId": "R3",
+      "kind": "lighting",
+      "status": "lit",
+      "coverage": 0.8,
+      "cumStart": 0,
+      "cumEnd": 550,
+      "nightVisit": true,
+      "visitedAt": "2026-09-26T20:40:00+08:00",
+      "photo": "night",
+      "observer": "u07"
+    },
+    {
+      "id": "O10",
+      "routeId": "R4",
+      "kind": "surface",
+      "status": "stairs",
+      "coverage": 1,
+      "cumStart": 600,
+      "cumEnd": 1050,
+      "nightVisit": true,
+      "visitedAt": "2026-09-21T19:30:00+08:00",
+      "photo": "night",
+      "observer": "u14",
+      "comment": "台阶段，配扶手"
+    }
+  ]
+}
